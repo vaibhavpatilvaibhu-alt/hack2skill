@@ -1,0 +1,18 @@
+{
+  "name": "campusguardian-ai",
+  "version": "1.0.0",
+  "description": "CampusGuardian AI - A Safer. Smarter. More Accessible Campus. (Hackathon Smart Campus Solution)",
+  "scripts": {
+    "install:all": "npm --prefix server install && npm --prefix client install",
+    "server": "npm --prefix server start",
+    "server:dev": "npm --prefix server run dev",
+    "client": "npm --prefix client run dev",
+    "client:build": "npm --prefix client run build",
+    "test": "node test_workflow.js",
+    "dev": "concurrently -k -n \"SERVER,CLIENT\" -c \"cyan.bold,magenta.bold\" \"npm --prefix server start\" \"npm --prefix client run dev\"",
+    "start": "concurrently -k -n \"SERVER,CLIENT\" -c \"cyan.bold,magenta.bold\" \"npm --prefix server start\" \"npm --prefix client run dev\""
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  }
+}
