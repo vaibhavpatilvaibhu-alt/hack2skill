@@ -9,6 +9,20 @@ const router = express.Router();
 const dbService = require('../services/db');
 const { analyzeIssue, chatWithAssistant } = require('../services/aiService');
 
+// Basic HTML Sanitization helper
+function escapeHTML(str) {
+  if (typeof str !== 'string') return str;
+  return str.replace(/[&<>'"]/g, 
+    tag => ({
+      '&': '&amp;',
+      '<': '&lt;',
+      '>': '&gt;',
+      "'": '&#39;',
+      '"': '&quot;'
+    }[tag] || tag)
+  );
+}
+
 // --- Middleware: Authentication & RBAC ---
 function authMiddleware(req, res, next) {
   const authHeader = req.headers.authorization;
@@ -262,16 +276,16 @@ router.post('/reports', requireAuth, (req, res) => {
     }
 
     const reportData = {
-      description: description.trim(),
-      location: location.trim(),
-      title: title ? title.trim() : null,
-      category: category || 'Other',
-      priority: priority || 'Medium',
-      department: department || 'General Campus Operations',
-      summary: summary || description.trim().slice(0, 60),
-      recommendedAction: recommendedAction || 'Inspect and assess site condition.',
+      description: escapeHTML(description.trim()),
+      location: escapeHTML(location.trim()),
+      title: title ? escapeHTML(title.trim()) : null,
+      category: escapeHTML(category || 'Other'),
+      priority: escapeHTML(priority || 'Medium'),
+      department: escapeHTML(department || 'General Campus Operations'),
+      summary: escapeHTML(summary || description.trim().slice(0, 60)),
+      recommendedAction: escapeHTML(recommendedAction || 'Inspect and assess site condition.'),
       confidence: confidence || 90,
-      imageUrl: imageUrl || null
+      imageUrl: imageUrl || null // URL validation could be added here
     };
 
     const newReport = dbService.createReport(reportData, req.user);

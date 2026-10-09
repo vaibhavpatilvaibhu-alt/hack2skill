@@ -103,6 +103,8 @@ db.exec(`
   CREATE INDEX IF NOT EXISTS idx_reports_student ON reports(student_email);
   CREATE INDEX IF NOT EXISTS idx_reports_status ON reports(status);
   CREATE INDEX IF NOT EXISTS idx_reports_priority ON reports(priority);
+  CREATE INDEX IF NOT EXISTS idx_reports_category ON reports(category);
+  CREATE INDEX IF NOT EXISTS idx_reports_created_at ON reports(created_at DESC);
   CREATE INDEX IF NOT EXISTS idx_alerts_status ON alerts(status);
   CREATE INDEX IF NOT EXISTS idx_sessions_token ON sessions(token);
   CREATE INDEX IF NOT EXISTS idx_audit_timestamp ON audit_logs(timestamp);
